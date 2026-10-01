@@ -33,3 +33,23 @@ body { margin: 0; background: #f6f8fb; color: #1f2937; }
 .link { border: none; background: none; color: var(--brand); cursor: pointer; padding: 0; }
 .page-foot { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--muted); }
 .error-text { color: #b42318; }
+.ok-text { color: #067647; }
+.tab-bar { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin: 8px 0 12px; flex-wrap: wrap; }
+.tab { border: none; background: none; padding: 8px 14px; cursor: pointer; font-size: 13px; color: var(--muted); border-bottom: 2px solid transparent; }
+.tab.active { color: var(--brand); border-bottom-color: var(--brand); font-weight: 600; }
+.badge { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 12px; border: 1px solid var(--border); }
+.badge.pool { color: #b54708; background: #fffaeb; border-color: #fedf89; }
+.badge.owned { color: #067647; background: #ecfdf3; border-color: #abefc6; }
+.badge.signed { color: #067647; background: #ecfdf3; border-color: #abefc6; }
+.badge.draft { color: #b54708; background: #fffaeb; border-color: #fedf89; }
+.badge.void, .badge.rejected { color: #b42318; background: #fef3f2; border-color: #fecdca; }
+.panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+.panel h3 { margin: 0 0 8px; font-size: 14px; }
+.kv { display: grid; grid-template-columns: 110px 1fr; gap: 4px 10px; font-size: 13px; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; }
+.inline-form { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+.dialog-mask { position: fixed; inset: 0; background: rgba(16,24,40,.45); display: flex; align-items: center; justify-content: center; z-index: 20; }
+.dialog { background: #fff; border-radius: 10px; padding: 18px 20px; width: 560px; max-width: 92vw; max-height: 86vh; overflow: auto; }
+.dialog h3 { margin: 0 0 12px; }
+.muted { color: var(--muted); font-size: 12px; }

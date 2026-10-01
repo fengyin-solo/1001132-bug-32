@@ -20,14 +20,26 @@ STATUSES = ["稳定", "局部变形", "失稳", "加固中"]
 def list_entries(
     keyword: str | None = Query(default=None, description="按边坡编号检索"),
     status: str | None = Query(default=None, description="稳定、局部变形、失稳、加固中"),
+    team_code: str | None = Query(default=None, description="按当前责任班组（权限快照）过滤"),
+    pending_claim: bool = Query(default=False, description="只看待认领池的无归属边坡"),
     page: int = 1,
     size: int = 20,
 ) -> PageResult[dict]:
-    """按边坡编号与状态过滤边坡防护列表；没有数据时返回空页，不报错。"""
+    """按边坡编号、状态与责任班组过滤；没有数据时返回空页，不报错。"""
     if size > 200:
         raise HTTPException(status_code=400, detail="每页最多 200 条，请缩小分页范围")
-    items, total = service.list_entries(keyword=keyword, status=status, page=page, size=size)
+    items, total = service.list_entries(
+        keyword=keyword, status=status, team_code=team_code,
+        pending_claim=pending_claim, page=page, size=size,
+    )
     return PageResult(items=items, total=total, page=page, size=size)
+
+
+@router.get("/export")
+def export_entries() -> dict[str, Any]:
+    """导出边坡防护清单：返回当前过滤条件下的全量数据。"""
+    items, total = service.list_entries(page=1, size=10000)
+    return {"module": "slope", "total": total, "items": items}
 
 
 @router.get("/{entry_id}", response_model=dict)
@@ -56,10 +68,3 @@ def run_action(entry_id: int, payload: EntryPayload) -> ActionResult:
     if entry is None:
         return ActionResult(ok=False, message=message)
     return ActionResult(ok=True, message=message, entry=entry)
-
-
-@router.get("/export")
-def export_entries() -> dict[str, Any]:
-    """导出边坡防护清单：返回当前过滤条件下的全量数据。"""
-    items, total = service.list_entries(page=1, size=10000)
-    return {"module": "slope", "total": total, "items": items}

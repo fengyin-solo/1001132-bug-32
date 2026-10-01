@@ -26,6 +26,14 @@ for module in ROUTERS:
     app.include_router(module.router)
 
 
+@app.on_event("startup")
+def bootstrap_handover_domain() -> None:
+    """启动时为示例边坡补齐班组与初始权限快照（幂等）。"""
+    from app.services.handover_domain import bootstrap
+
+    bootstrap()
+
+
 @app.get("/api/health")
 def health() -> dict[str, object]:
     """健康检查：确认服务已经监听、示例数据已经就绪。"""
